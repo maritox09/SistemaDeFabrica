@@ -346,20 +346,20 @@ def log_ordenes():
     else:
         return redirect(url_for("login"))
 
-#WebServiceDummy
-@app.route("/webservice_select", methods=["GET"])
-def test():
-    data = db.modelos.find()
-    json_data = dumps(list(data))
-    return json_data
+#WebService
 
-@app.route("/webservice_insert", methods = ["POST"])
-def test_insert():
+@app.route("/solicitar_inventario", methods = ["POST"])
+def solicitar_inventario():
     data = request.json
-    db.webservice.insert({"dato":data['dato']})
-    data_resp = db.webservice.find()
-    json_data = dumps(list(data_resp))
-    return json_data
+    resp = db.clientes.find_one({"_id":ObjectId(data['usuario']), "password":data['pass']})
+    if(resp):
+        catalogo = db.modelos.find()
+        l = list(catalogo)
+        d = dumps(l)
+        return d
+    else:
+        ret = {"acceso":"negado"}
+        return jsonify(ret)
 
 
 ###########Inicia el servidor
