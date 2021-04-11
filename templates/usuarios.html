@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %} Usuarios {% endblock %}
+
+{% block contenido %}
+<a class="btn btn-primary" href="usuarios/agregar" role="button">Agregar Usuario</a>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Usuario</th>
+        <th scope="col">Password</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for data in data %}
+        <tr>
+            <td>{{data["usuario"]}}</td>
+            <td>{{data["password"]}}</td>
+            <td>Administrador</td>
+            <td><a href="usuarios/{{data['_id']}}"> Click aqui </a></td>
+            <td><a href="usuarios/eliminar/{{data['_id']}}"> Click aqui </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

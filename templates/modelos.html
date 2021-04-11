@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %} Modelos{% endblock %}
+
+{% block contenido %}
+<a class="btn btn-primary" href="modelos/agregar" role="button">Agregar terminal</a>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for mod in data %}
+        <tr>
+            <td>{{mod["tipo"]}}</td>
+            <td>{{mod["marca"]}}</td>
+            <td>{{mod["modelo"]}}</td>
+            <td>Q {{mod["precio"]}}</td>
+            <td><a href="modelos/{{mod['_id']}}"> Click aqui </a></td>
+            <td><a href="modelos/eliminar/{{mod['_id']}}"> Click aqui </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

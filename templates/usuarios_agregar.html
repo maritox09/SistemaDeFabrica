@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titulo %} Agregar usuario {% endblock %}
+
+{% block contenido %} 
+
+<form action="/usuarios/agregar/aux" method="POST">
+    <div class="form-group">
+      <label>Usuario</label>
+      <input class="form-control" name="usuario" placeholder="Usuario" required>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" name="password" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
+
+{% endblock %}

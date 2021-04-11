@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %} Configuracion de fabrica {% endblock %}
+
+{% block contenido %} 
+
+<form action="/conf_fabrica/aux" method="POST">
+    <div class="form-group">
+      <label>Nombre de fabrica</label>
+      <input class="form-control" name="nombre_fabrica" value="{{data['nombre_fabrica']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Tiempo de produccion (Dias)</label>
+        <input class="form-control" name="tiempo_produccion" value="{{data['tiempo_produccion']}}" required>
+        <input class="form-control" name="id" value="{{data['_id']}}" type="hidden">
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
+
+{% endblock %}

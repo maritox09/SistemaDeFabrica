@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %} Clientes {% endblock %}
+
+{% block contenido %}
+<a class="btn btn-primary" href="clientes/agregar" role="button">Agregar Cliente</a>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Password</th>
+        <th scope="col">Tiempo de envio (dias)</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for data in data %}
+        <tr>
+            <td>{{data["_id"]}}</td>
+            <td>{{data["nombre"]}}</td>
+            <td>{{data["password"]}}</td>
+            <td>{{data["tiempo_envio"]}}</td>
+            <td><a href="clientes/{{data['_id']}}"> Click aqui </a></td>
+            <td><a href="clientes/eliminar/{{data['_id']}}"> Click aqui </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

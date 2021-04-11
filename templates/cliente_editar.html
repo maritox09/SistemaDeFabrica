@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %} Editar cliente {% endblock %}
+
+{% block contenido %} 
+
+<form action="/clientes/editar/aux" method="POST">
+    <div class="form-group">
+      <label>Nombre</label>
+      <input class="form-control" name="nombre" value="{{data['nombre']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" name="password" value="{{data['password']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Tiempo de envio (dias)</label>
+        <input class="form-control" name="tiempo_envio" value="{{data['tiempo_envio']}}" required>
+    </div>
+    <input class="form-control" type="hidden" name="id" value="{{data['_id']}}" required>
+    <button type="submit" class="btn btn-primary">Editar</button>
+</form>
+
+{% endblock %}

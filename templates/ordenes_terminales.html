@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %} Terminales en orden {% endblock %}
+
+{% block contenido %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Modelo</th>
+        <th scope="col">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for data in data %}
+        <tr>
+            <td>{{data["modelo"]}}</td>
+            <td>{{data["cantidad"]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

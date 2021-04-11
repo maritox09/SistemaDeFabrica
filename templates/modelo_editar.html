@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block titulo %} Editar modelo {% endblock %}
+
+{% block contenido %} 
+
+<form action="/modelos/editar/aux" method="POST">
+    <div class="form-group">
+      <label>Tipo</label>
+      <input class="form-control" name="tipo" value="{{data[0]['tipo']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Marca</label>
+        <input class="form-control" name="marca" placeholder="Marca" value="{{data[0]['marca']}}" required readonly> 
+    </div>
+    <div class="form-group">
+        <label>Modelo</label>
+        <input class="form-control" name="modelo" placeholder="Modelo" value="{{data[0]['modelo']}}" required readonly>
+    </div>
+    <div class="form-group">
+        <label>Memoria (Gbs)</label>
+        <input class="form-control" name="memoria" placeholder="Memoria" value="{{data[0]['memoria']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Almacenamiento (Gbs)</label>
+        <input class="form-control" name="almacenamiento" placeholder="Almacenamiento" value="{{data[0]['almacenamiento']}}" required>
+      </div>
+    <div class="form-group">
+        <label>Procesador</label>
+        <input class="form-control" name="procesador" placeholder="Procesador" value="{{data[0]['procesador']}}" required>
+    </div>
+    <div class="form-group">
+        <label>No. de cores</label>
+        <input class="form-control" name="cores" placeholder="Cores" value="{{data[0]['cores']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Resolucion</label>
+        <input class="form-control" name="resolucion" placeholder="Resolucion" value="{{data[0]['resolucion']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Bandas</label>
+        <input class="form-control" name="bandas" placeholder="Bandas" value="{{data[0]['bandas']}}" required>
+    </div>
+    <div class="form-group">
+        <label>Precio</label>
+        <input class="form-control" name="precio" placeholder="Precio" value="{{data[0]['precio']}}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Editar</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %} Agregar terminal a orden {% endblock %}
+
+{% block contenido %} 
+
+<form action="/ordenes/agregar/aux" method="POST">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for data in data_terminales %}
+            <tr>
+                <td>{{data["marca"]}}</td>
+                <td>{{data["modelo"]}}</td>
+                <td><input class="form-control" name="{{'cantidad_'+data['modelo']}}" value="{{data['modelo_temp']['cantidad']}}"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <input class="form-control" name="id" value="{{data_orden['_id']}}" required type="hidden">
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
+
+{% endblock %}
