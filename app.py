@@ -251,7 +251,7 @@ def usuarios_eliminar(usuario):
 @app.route("/ordenes")
 def ordenes():
     if verificar_permiso():
-        data = db.ordenes.find()
+        data = db.ordenes.find().sort('fecha_ingreso',-1)
         return render_template("ordenes.html", data = data)
     else:
         return redirect(url_for("login"))
@@ -337,12 +337,20 @@ def ordenes_cancelar(orden):
 def estadisticas():
     return "Aqui van las estadisticas"
 
-#Log de ordenes
+#Logs
 @app.route("/log_ordenes")
 def log_ordenes():
     if verificar_permiso():
         data = db.log_ordenes.find().sort('fecha',pymongo.DESCENDING)
         return render_template("log_ordenes.html", data = data)
+    else:
+        return redirect(url_for("login"))
+
+@app.route("/log_rest")
+def log_rest():
+    if verificar_permiso():
+        data = db.log_rest.find().sort('fecha',pymongo.DESCENDING)
+        return render_template("log_rest.html", data = data)
     else:
         return redirect(url_for("login"))
 
@@ -361,6 +369,35 @@ def solicitar_inventario():
         ret = {"acceso":"negado"}
         return jsonify(ret)
 
+@app.route("/nueva_orden", methods = ["POST"])
+def nueva_orden():
+    data = request.json
+    resp = db.clientes.find_one({"_id":ObjectId(data['usuario']), "password":data['pass']})
+    if(resp):
+        temp_id = db.ordenes.insert_one({"cliente":data['usuario'], "nombre":resp['nombre'], "fecha_ingreso": datetime.now(), "estado":"recibida"})
+        for modelo in data['orden']:
+            db.ordenes_terminales.insert_one({"orden":str(temp_id.inserted_id),"modelo":modelo['modelo'], "cantidad":modelo['cantidad']})
+    else:
+        ret = {"acceso":"negado"}
+        return jsonify(ret)
+    
+    db.log_rest.insert_one({"orden":str(temp_id.inserted_id),"cliente":resp['nombre'],"accion":"Ingreso orden mediante servicios REST","fecha": datetime.now()})
+    ret = {"orden":str(temp_id.inserted_id)}
+    return jsonify(ret)
+
+@app.route("/cancelar_orden", methods = ["POST"])
+def cancelar_orden():
+    data = request.json
+    resp = db.clientes.find_one({"_id":ObjectId(data['usuario']), "password":data['pass']})
+    if(resp):
+        if (db.ordenes.find_one({"_id":ObjectId(data['orden'])})['cliente'] == data['usuario']):
+            db.ordenes.update({"_id":ObjectId(data['orden'])},{"$set":{"estado":"cancelado"}})
+            db.log_rest.insert_one({"orden":data['orden'],"cliente":resp['nombre'],"accion":"Cancelacion de orden mediante servicios REST","fecha": datetime.now()})
+            ret = {"orden":"cancelada"}
+            return jsonify(ret)
+    else:
+        ret = {"acceso":"negado"}
+        return jsonify(ret)
 
 ###########Inicia el servidor
 if __name__ == '__main__':

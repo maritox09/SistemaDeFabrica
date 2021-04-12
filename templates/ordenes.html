@@ -7,6 +7,7 @@
       <tr>
         <th scope="col">Id orden</th>
         <th scope="col">Cliente</th>
+        <th scope="col">Nombre</th>
         <th scope="col">Fecha de Ingreso</th>
         <th scope="col">Estado</th>
         <th scope="col">Lista de terminales</th>
@@ -19,6 +20,7 @@
         <tr>
             <td>{{data["_id"]}}</td>
             <td>{{data["cliente"]}}</td>
+            <td>{{data["nombre"]}}</td>
             <td>{{data["fecha_ingreso"]}}</td>
             <td>{{data["estado"]}}</td>
             <td><a href="ordenes/terminales/{{data['_id']}}"> Click aqui </a></td>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %} Log Ordenes {% endblock %}
+
+{% block contenido %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Orden</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for mod in data %}
+        <tr>
+            <td>{{mod["orden"]}}</td>
+            <td>{{mod["cliente"]}}</td>
+            <td>{{mod["fecha"]}}</td>
+            <td>{{mod["accion"]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

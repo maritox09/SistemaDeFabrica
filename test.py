@@ -4,9 +4,6 @@ client = pymongo.MongoClient('localhost', 27017)
 
 db = client.SistemaDeFabrica
 
-user = db.usuarios.find_one({"usuario": "Mario"})
+x = db.test.insert_one({"sadsa":"dasdas"})
 
-if user:
-    print("SIIIUUUUU")
-else:
-    print("NOOOOUUUUU")
+print(x.inserted_id)
