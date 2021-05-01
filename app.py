@@ -366,7 +366,7 @@ def estadisticas():
             clave = {'id' : 1}
             jclave = json.dumps(clave)
             url = str(cliente['url']) + "/api/ReporteVentas"
-            response = requests.post('http://ventas.falcorp.net:8080/PrimerSistema/api/ReporteVentas', json={"id":1})
+            response = requests.post('http://ventas.falcorp.net:8080/PrimerSistema/api/ReporteVentas', json={"id":int(1)})
             if response.ok:
                 return response.json()
             for venta in data:
