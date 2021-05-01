@@ -25,7 +25,10 @@ def notificar_envio(orden):
     url = str(db.clientes.find_one({"_id":ObjectId(cliente)})['url']) + "/api_war/api/actualizarEstado/"
     data = {"orden":orden}
     response = requests.post(url, json = data)
-    return True
+    if response.ok:
+        return True
+    else:
+        return "nel"
 
 ###########Directorio de paginas
 #HomePage
