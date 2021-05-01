@@ -10,6 +10,7 @@
         <th scope="col">Nombre</th>
         <th scope="col">Fecha de Ingreso</th>
         <th scope="col">Estado</th>
+        <th scope="col">Siguente Estado</th>
         <th scope="col">Lista de terminales</th>
         <th scope="col">Editar</th>
         <th scope="col">Cancelar orden</th>
@@ -23,6 +24,7 @@
             <td>{{data["nombre"]}}</td>
             <td>{{data["fecha_ingreso"]}}</td>
             <td>{{data["estado"]}}</td>
+            <td><a href="ordenes/estado/{{data['_id']}}"> Click aqui </a></td>
             <td><a href="ordenes/terminales/{{data['_id']}}"> Click aqui </a></td>
             <td><a href="ordenes/{{data['_id']}}"> Click aqui </a></td>
             <td><a href="ordenes/cancelar/{{data['_id']}}"> Click aqui </a></td>

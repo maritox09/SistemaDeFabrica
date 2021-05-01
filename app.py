@@ -1,6 +1,6 @@
 ###########Librerias
 from flask import Flask, redirect, url_for, render_template, request, session, jsonify
-import pymongo, json, requests
+import pymongo, json, requests, urllib.request, matplotlib
 from bson.objectid import ObjectId 
 from bson.json_util import dumps, loads
 from datetime import datetime
@@ -19,6 +19,13 @@ def verificar_permiso():
         return True
     else:
         return False
+
+def notificar_envio(orden):
+    cliente = db.ordenes.find_one({"_id":ObjectId(orden)})['cliente']
+    url = str(db.clientes.find_one({"_id":cliente})) + "/api_war/api/actualizarEstado/"
+    data = {"orden":orden}
+    response = requests.post(url, json = data)
+    return True
 
 ###########Directorio de paginas
 #HomePage
@@ -167,8 +174,9 @@ def clientes_agregar_aux():
     nombre = request.form["nombre"]
     password = request.form["password"]
     tiempo_envio = request.form["tiempo_envio"]
+    url = request.form["url"]
 
-    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio}
+    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url}
 
     res = db.clientes.insert_one(cliente)
 
@@ -180,8 +188,9 @@ def clientes_editar_aux():
     nombre = request.form["nombre"]
     password = request.form["password"]
     tiempo_envio = request.form["tiempo_envio"]
+    url = request.form["url"]
 
-    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio}
+    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url}
 
     res = db.clientes.update({"_id":ObjectId(id)},cliente)
 
@@ -332,10 +341,49 @@ def ordenes_cancelar(orden):
     db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"cancelado"}})
     return redirect(url_for("ordenes"))
 
+@app.route("/ordenes/estado/<orden>")
+def ordenes_estado(orden):
+    old = db.ordenes.find_one({"_id":ObjectId(orden)})
+    if (old['estado'] == "recibida"):
+        db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"en produccion"}})
+        return redirect(url_for("ordenes"))
+    elif (old['estado'] == "en produccion"):
+        db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"enviada"}})
+        notificar_envio(orden)
+        return redirect(url_for("ordenes"))
+    else:
+        return redirect(url_for("ordenes"))
+    
+
 #Estadisticas
 @app.route("/estadisticas")
 def estadisticas():
-    return "Aqui van las estadisticas"
+    if verificar_permiso():
+        clientes = db.clientes.find()
+        for cliente in clientes:
+            response = urllib.request.urlopen(str(cliente['url']) + "/api/ReporteVentas")
+            data = json.loads(response.read())
+            for venta in data:
+                temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
+                if (not temp):
+                    db.reporte_ventas.insert_one({"id_detalle":venta['iddetalle'], "id_venta":venta['idventa'], "cliente":cliente['_id'], "modelo":venta['modelo'],"cantidad":int(venta['cantidad'])})
+                else:
+                    print("ya ingresado")
+            
+        datos = db.reporte_ventas.find()
+        x, y = []
+        c = 0
+        for dato in datos:
+            x[c] = dato['modelo']
+            y[x[c]] += dato['cantidad']
+            c += 1
+
+        matplotlib.pyplot.bar(x, y,)
+        matplotlib.pyplot.savefig('graf.png')
+
+        return render_template("estadisticas.html")
+    else:
+        return redirect(url_for("login"))
 
 #Logs
 @app.route("/log_ordenes")
