@@ -364,7 +364,6 @@ def estadisticas():
         clientes = db.clientes.find()
         for cliente in clientes:
             json = {'id':int(cliente['id_ventas'])}
-            return (str(cliente['url']) + "/api/ReporteVentas")
             response = requests.post(str(cliente['url']) + "/api/ReporteVentas", json = json)
             if response.ok:
                 return response.json()
