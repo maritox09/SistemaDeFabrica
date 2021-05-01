@@ -359,7 +359,7 @@ def ordenes_estado(orden):
         else:
             return "NEL"
     else:
-        return redirect(url_for("ordenes"))
+        return redirect(url_for("clientes"))
     
 
 #Estadisticas
