@@ -26,7 +26,7 @@ def notificar_envio(orden):
     data = {"orden":orden}
     response = requests.post(url, json = data)
     if response.ok:
-        return True
+        return response.text
     else:
         return "nel"
 
