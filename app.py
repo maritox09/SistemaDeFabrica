@@ -366,7 +366,7 @@ def estadisticas():
             clave = {'id':1}
             jclave = json.dumps(clave)
             ip = str(cliente['url']) + "/api/ReporteVentas"
-            response = requests.post(ip, json=clave)
+            response = requests.post(ip, json=jclave
             if response.ok:
                 return response.json()
             for venta in data:
