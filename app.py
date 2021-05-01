@@ -372,7 +372,7 @@ def estadisticas():
             jclave = json.dumps(clave)
             ip = str(cliente['url']) + "/api/ReporteVentas"
             response = requests.post(str(ip), json=clave)
-            return response.json()
+            return response.raw
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
                 if (not temp):
