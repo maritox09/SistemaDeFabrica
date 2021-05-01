@@ -362,7 +362,7 @@ def estadisticas():
         clientes = db.clientes.find()
         for cliente in clientes:
             response = requests.get(str(cliente['url']) + "/api/ReporteVentas")
-            data = json.loads(response.json())
+            data = response.json()
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
                 if (not temp):
