@@ -175,8 +175,9 @@ def clientes_agregar_aux():
     password = request.form["password"]
     tiempo_envio = request.form["tiempo_envio"]
     url = request.form["url"]
+    id_ventas = request.form["id_ventas"]
 
-    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url}
+    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url, "id_ventas":id_ventas}
 
     res = db.clientes.insert_one(cliente)
 
@@ -189,8 +190,9 @@ def clientes_editar_aux():
     password = request.form["password"]
     tiempo_envio = request.form["tiempo_envio"]
     url = request.form["url"]
+    id_ventas = request.form["id_ventas"]
 
-    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url}
+    cliente = {"nombre":nombre, "password":password, "tiempo_envio":tiempo_envio, "url":url, "id_ventas":id_ventas}
 
     res = db.clientes.update({"_id":ObjectId(id)},cliente)
 
@@ -361,7 +363,8 @@ def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
         for cliente in clientes:
-            response = requests.get(str(cliente['url']) + "/api/ReporteVentas")
+            json = {'id':cliente['id_ventas']}
+            response = requests.post(str(cliente['url']) + "/api/ReporteVentas", json = json)
             data = response.json()
             return data
             for venta in data:
