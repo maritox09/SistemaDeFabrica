@@ -358,13 +358,14 @@ def ordenes_estado(orden):
     
 
 #Estadisticas
-@app.route("/estadisticas", methods = ["POST","GET"])
+@app.route("/estadisticas", methods = ["POST"])
 def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
         for cliente in clientes:
             clave = {'id':int(cliente['id_ventas'])}
-            response = requests.post(str(cliente['url']) + "/api/ReporteVentas", json = clave)
+            url = str(cliente['url']) + "/api/ReporteVentas"
+            response = requests.post(url, json = clave)
             if response.ok:
                 return response.json()
             for venta in data:
