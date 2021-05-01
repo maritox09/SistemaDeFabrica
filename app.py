@@ -26,10 +26,9 @@ def notificar_envio(orden):
     data = {"orden":orden}
     response = requests.post(url, json = data)
     if response.ok:
-        print (response.text)
         return True
     else:
-        return "nel"
+        return False
 
 ###########Directorio de paginas
 #HomePage
