@@ -349,7 +349,7 @@ def ordenes_cancelar(orden):
 
 @app.route("/ordenes/estado/<orden>")
 def ordenes_estado(orden):
-    old = db.ordenes.find_one({"_id":ObjectId,{"$set":{"estado":"cancelado"}})
+    old = db.ordenes.find_one({"_id":ObjectId},{"$set":{"estado":"cancelado"}})
     return redirect(url_for("ordenes"))
 
 @app.route("/ordenes/estado/<orden>")
