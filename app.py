@@ -26,7 +26,8 @@ def notificar_envio(orden):
     data = {"orden":orden}
     response = requests.post(url, json = data)
     if response.ok:
-        return response.text
+        print response.text
+        return True
     else:
         return "nel"
 
@@ -344,6 +345,11 @@ def ordenes_editar_aux():
 def ordenes_cancelar(orden):
     db.log_ordenes.insert({"orden":orden, "usuario":session["user"], "accion":"cancelacion manual", "fecha": datetime.now()})
     db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"cancelado"}})
+    return redirect(url_for("ordenes"))
+
+@app.route("/ordenes/estado/<orden>")
+def ordenes_estado(orden):
+    old = db.ordenes.find_one({"_id":ObjectId,{"$set":{"estado":"cancelado"}})
     return redirect(url_for("ordenes"))
 
 @app.route("/ordenes/estado/<orden>")
