@@ -363,7 +363,7 @@ def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
         for cliente in clientes:
-            clave = {'id':int(cliente['id_ventas'])}
+            clave = {'id':1}
             url = str(cliente['url']) + "/api/ReporteVentas"
             response = requests.post(url, json = clave)
             if response.ok:
