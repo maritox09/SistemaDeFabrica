@@ -361,7 +361,7 @@ def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
         for cliente in clientes:
-            response = urllib.request.urlopen(str(cliente['url']) + "/api/ReporteVentas")
+            response = requests.get(str(cliente['url']) + "/api/ReporteVentas")
             data = json.loads(response.read())
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
