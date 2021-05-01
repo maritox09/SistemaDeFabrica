@@ -376,7 +376,7 @@ def estadisticas():
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
                 if (not temp):
-                    db.reporte_ventas.insert_one({"id_detalle":venta['iddetalle'], "id_venta":venta['idventa'], "cliente":cliente['_id'], "modelo":venta['modelo'],"cantidad":int(venta['cantidad'])})
+                    db.reporte_ventas.insert_one({"id_detalle":venta['iddetalle'], "id_venta":venta['idventa'], "cliente":cliente['_id'], "modelo":venta['modelo'],"cantidad":venta['cantidad']})
                 else:
                     print("ya ingresado")
             
