@@ -22,9 +22,9 @@ def verificar_permiso():
 
 def notificar_envio(orden):
     cliente = db.ordenes.find_one({"_id":ObjectId(str(orden))})['cliente']
-    url = str(db.clientes.find_one({"_id":ObjectId(str(cliente))})['url']) + "/api_war/api/actualizarEstado/"
+    url = str(db.clientes.find_one({"_id":ObjectId(str(cliente))})['url']) + "/api/actualizarEstado/"
     data = {"orden":str(orden)}
-    response = requests.post('http://ventas.falcorp.net:8080/PrimerSistema/api/actualizarEstado', json = data)
+    response = requests.post(url, json = data)
     if response.ok:
         return True
     else:
