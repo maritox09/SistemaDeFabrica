@@ -358,7 +358,7 @@ def ordenes_estado(orden):
     
 
 #Estadisticas
-@app.route("/estadisticas", methods = ["POST"])
+@app.route("/estadisticas", methods = ["GET","POST"])
 def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
