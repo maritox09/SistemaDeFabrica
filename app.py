@@ -359,7 +359,7 @@ def ordenes_estado(orden):
         else:
             return "NEL"
     else:
-        return redirect(url_for("clientes"))
+        return redirect(url_for("ordenes"))
     
 
 #Estadisticas
@@ -371,7 +371,7 @@ def estadisticas():
             clave = {'id':1}
             jclave = json.dumps(clave)
             ip = str(cliente['url']) + "/api/ReporteVentas"
-            response = requests.post(str(ip), json=jclave)
+            response = requests.post(str(ip), json={'id':"1"})
             return response.json()
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
