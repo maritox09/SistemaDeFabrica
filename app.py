@@ -368,10 +368,9 @@ def estadisticas():
     if verificar_permiso():
         clientes = db.clientes.find()
         for cliente in clientes:
-            clave = {'id':'1'}
-            jclave = json.dumps(clave)
+            clave = {"id":"1"}
             ip = str(cliente['url']) + "/api/ReporteVentas"
-            response = requests.post(str(ip), json=clave)
+            response = requests.post('http://ventas.falcorp.net:8080/PrimerSistema/api/ReporteVentas', json=clave)
             return response.raw
             for venta in data:
                 temp = db.reporte_ventas.find_one({"id_detalle":venta['iddetalle']})
