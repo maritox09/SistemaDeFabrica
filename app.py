@@ -22,7 +22,7 @@ def verificar_permiso():
 
 def notificar_envio(orden):
     cliente = db.ordenes.find_one({"_id":ObjectId(orden)})['cliente']
-    url = str(db.clientes.find_one({"_id":cliente})) + "/api_war/api/actualizarEstado/"
+    url = str(db.clientes.find_one({"_id":ObjectId(cliente)})['url']) + "/api_war/api/actualizarEstado/"
     data = {"orden":orden}
     response = requests.post(url, json = data)
     return True
