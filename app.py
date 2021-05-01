@@ -353,8 +353,8 @@ def ordenes_estado(orden):
         db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"en produccion"}})
         return redirect(url_for("ordenes"))
     elif (old['estado'] == "en produccion"):
-        db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"enviada"}})
         if (notificar_envio(orden)):
+            db.ordenes.update({"_id":ObjectId(orden)},{"$set":{"estado":"enviada"}})
             return redirect(url_for("ordenes"))
         else:
             return "NEL"
