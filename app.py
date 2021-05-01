@@ -364,7 +364,7 @@ def estadisticas():
         clientes = db.clientes.find()
         for cliente in clientes:
             clave = {'id' : 1}
-            jclave = dumps(clave)
+            jclave = json.dumps(clave)
             url = str(cliente['url']) + "/api/ReporteVentas"
             response = requests.post('http://ventas.falcorp.net:8080/PrimerSistema/api/ReporteVentas', json=clave)
             if response.ok:
